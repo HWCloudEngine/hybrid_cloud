@@ -17,15 +17,15 @@ There are several limitations of using this technology:
 ###Technology
 We compare 2 prominent Container Visor technologies: LXC and Docker.
 
-|LXC|Docker|
-|:-|:-|
-|Operating System Containers|Application Containers|
-|Customized init is spawned in container|Application is spawned directly|
-|User space isolation multi process|Run a single service as a container|
-|Mounting regular LVs via FSTAB (Device Mapper)|Data containers|
-|TTY Console support|STDOUT / logs|
-|Container runs in unprivileged user (inside the container, user can be ROOT, but outside the container it is NOBODY)|Container runs in ROOT user, privileges limited by Docker-0 (can give --privileged and gain partial ROOT capabilities to the container user on the host)|
-|Comprehensive Linux Network tool accessible to container's SUDO (e.g. ifup/ifdown, ifconfig, dhclient, ...)|Network is set from outside, Container user cannot access the tools|
+LXC | Docker
+-- | --
+Operating System Containers | Application Containers
+Customized init is spawned in container | Application is spawned directly
+User space isolation multi process | Run a single service as a container
+Mounting regular LVs via FSTAB (Device Mapper) | Data containers
+TTY Console support | STDOUT / logs
+Container runs in unprivileged user (inside the container, user can be ROOT, but outside the container it is NOBODY) | Container runs in ROOT user, privileges limited by Docker-0 (can give --privileged and gain partial ROOT capabilities to the container user on the host)
+Comprehensive Linux Network tool accessible to container's SUDO (e.g. ifup/ifdown, ifconfig, dhclient, ...) | Network is set from outside, Container user cannot access the tools
 
 This comparison leads us to select LXC as the initial Container Visor, as it is more intuitive to running workloads that originated as a classic Virtual Machine.
 In the future, any other technology can be supported as the Container Visor (as well as, of course, Docker).
