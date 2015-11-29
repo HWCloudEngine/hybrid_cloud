@@ -16,6 +16,8 @@ There are several limitations of using this technology:
 
 ### Technology
 We compare 2 prominent Container Visor technologies: LXC and Docker.
+
+
 |LXC|Docker|
 |:--|:------|
 |Operating System Containers | Application Containers
