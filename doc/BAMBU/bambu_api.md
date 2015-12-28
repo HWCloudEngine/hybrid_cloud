@@ -38,7 +38,7 @@ neutron l2-remote-gateway-delete <remote-gw-name/uuid>
 This command lists all the remote gateways.
 ```
 Usage:
-neutron l2-remote-gateway-list <remote-gw-name/uuid>
+neutron l2-remote-gateway-list 
 ```
 ##### 2.3 Gateway Commands
 To be able to connect two overlay networks, the following command will be added to the API:
@@ -65,4 +65,41 @@ This command can be used to delete a connection to a remote gateway.
 Usage:
 neutron l2-remote-gateway-connection-delete <uuid>  
 ````
+###### 2.3.4.	l2-remote-gateway-connection-list
+This command lists all the remote gateway connections.
+```
+Usage:
+l2-remote-gateway-connection-list 
+````
 
+##### 2.4 MAC Commands
+The following commands add, update, remote and list the MAC addresses on a remote gateway. 
+
+###### 2.4.1.	l2-remote-mac-create
+This command adds MAC address of a host that is located in a remote overlay network that can be reached via a remote gateway connection.
+```
+Usage:
+l2-remote-mac-create <MAC> <gw-connection-uuid>  [--ipaddr=<ip-address>]
+Note: the IP address is the remote hosts’
+````
+
+###### 2.4.2.	l2-remote-mac-update
+This command updates the IP address of a host with MAC address <MAC>.
+```
+Usage:
+l2-remote-mac-update <MAC> <gw-connection-uuid>  --ipaddr=<ip-address>]
+````
+
+###### 2.4.3.	l2-remote-mac-delete
+This command deletes MAC on a remote gateway connection.
+```
+Usage:
+l2-remote-mac-delete <MAC-uuid> 
+````
+
+###### 2.4.4.	l2-remote-mac-list
+This command lists all the MAC addresses on all remote gateway connections.
+```
+Usage:
+l2-remote-mac-list
+````
