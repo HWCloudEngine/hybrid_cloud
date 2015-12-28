@@ -65,6 +65,9 @@ returns: None
 ##### 2.2 Neutron Agent stantards API
 
 ## Border Gateway (BGW)
+
+![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/images/l2gw_overview.png)
+
 ### 1. Introduction
 L2 Border Gateway is an enhancement to the current Networking/L2GW project.
 The current project aims to connect overlay network with external, usually bare metal, servers via hardware switches using OVSDB protocol. 
