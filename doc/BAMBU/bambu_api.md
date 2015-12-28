@@ -14,7 +14,8 @@ Name: get_vifs_for_instance
 Parameters:
    instance_id: the VM instance id
 returns:
-   List of the VIFs of the current instance. Each VIF the a Map containing 'net_info' and 'provider_net_info'. The data of the Hyper VIF and the Provider VIF.
+   List of the VIFs of the current instance.
+   Each VIF the a Map containing 'net_info' (Hyper VIF data) and 'provider_net_info' (Provider VIF data).
 ```
 
 ###### 2.2.2.	get_vifs_for_hyper_switch
