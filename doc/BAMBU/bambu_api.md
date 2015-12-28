@@ -1,6 +1,73 @@
 # Bambu API
 
+## Hyper Agent
+
+![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/images/demo_agentBasedWithoutContainer.png)
+
+### 1. Introduction
+The Hyper Agent is an agent installed in the Client VM for the Agent solution or in the Hyper Switch Node for the Agent less solution.
+The Hyper Agent communicates with the Nova compute to plug and unplug the VIFs to the Virtual Machines.
+For the L2/L3 connectivity and Security Groups functionnalities, an OVS agent should also installed on the Client VM or the Hyper Switch Node.
+
+### 2. APIs: the Hyper Agent calls to the Nova Compute
+###### 2.2.1.	get_vifs_for_instance
+Call by the Hyper Agent that runs in a client VM during the VM boot. This call retrieves the list of VIFs of the current instance.
+```
+Name: get_vifs_for_instance
+Parameters:
+   instance_id: the VM instance id
+returns:
+   List of the VIFs of the current instance.
+   Each VIF the a Map containing 'net_info' (Hyper VIF data) and 'provider_net_info' (Provider VIF data).
+```
+
+###### 2.2.2.	get_vifs_for_hyper_switch
+Call by the Hyper Agent that runs in a Hyper Switch Node during the VM boot. This call retrieves the list of VIFs of the all the instances of the current Hyper Switch.
+```
+Name: get_vifs_for_hyper_switch
+Parameters:
+   hyper_switch_id: the Hyper Switch Node instance id
+returns:
+   List of the VIFs of all the instances of the current Hyper Switch.
+```
+
+### 2. APIs: the Nova Compute to the Hyper Agent calls
+###### 2.2.3.	choose_hyper_switch
+Choose on which Hyper Switch the VM will be deployed.
+```
+Name: choose_hyper_switch
+Parameters: None
+returns:
+   Map defining the choosen Hyper Switch Node
+```
+
+###### 2.2.4.	plug
+Call from the Nova Compute when a VIF is added to a VM
+```
+Name: plug
+Parameters:
+   instance_id: the VM instance id
+   hyper_vif: Map containing the hyper vif data
+   provider_vif: Map containing the provider vif data
+returns: None
+```
+
+###### 2.2.5.	unplug
+Call from the Nova Compute when a VIF is removed to a VM
+```
+Name: unplug
+Parameters:
+   instance_id: the VM instance id
+   hyper_vif: Map containing the hyper vif data
+returns: None
+```
+
+##### 2.2 Neutron Agent stantards API
+
 ## Border Gateway (BGW)
+
+![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/images/l2gw_overview.png)
+
 ### 1. Introduction
 L2 Border Gateway is an enhancement to the current Networking/L2GW project.
 The current project aims to connect overlay network with external, usually bare metal, servers via hardware switches using OVSDB protocol. 
