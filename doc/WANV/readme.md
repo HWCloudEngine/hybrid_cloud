@@ -10,8 +10,11 @@ Huawei propritery solution based on commodity x86-based appliance for aggregatin
 * Enabler for enterprise hybrid cloud
 
 ### What it can do?
-Optimal link utilization, path protection & aggregation, flow-based load balancing, flow-based QoS/COS, HA
-Extend local LAN to remote sites with secured tunneling (GRE or VxLAN over IPSec)
+- Optimal link utilization
+- path protection & aggregation
+- flow-based load balancing, flow-based QoS/COS
+- HA
+- Extend local LAN to remote sites with secured tunneling (GRE or VxLAN over IPSec)
 
 ### Differentiators
 * SDN application
