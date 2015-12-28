@@ -1,5 +1,7 @@
 # WAN Virtualization 
 
+![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/WANV/images/WANV_basic.png)
+
 ## 1. Introduction
 ### What is it?
 Huawei propritery solution based on commodity x86-based appliance for aggregating multiple low-cost WAN links to interconnect branches, remote offices and data centers
