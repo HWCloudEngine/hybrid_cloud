@@ -1,6 +1,9 @@
 # Bambu API
 
 ## Hyper Agent
+
+![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/images/demo_agentBasedWithoutContainer.png)
+
 ### 1. Introduction
 The Hyper Agent is an agent installed in the Client VM for the Agent solution or in the Hyper Switch Node for the Agent less solution.
 The Hyper Agent communicates with the Nova compute to plug and unplug the VIFs to the Virtual Machines.
