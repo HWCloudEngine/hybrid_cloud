@@ -19,6 +19,8 @@ Extend local LAN to remote sites with secured tunneling (GRE or VxLAN over IPSec
 
 # 2. Deployment
 
+![Deployment](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/WANV/images/WANV_deployment.png)
+
 ## Single-ended
 * Transparent
     - NAT is done by gateway device (e.g. DSL modem/router)
