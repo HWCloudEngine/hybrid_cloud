@@ -40,7 +40,29 @@ This command lists all the remote gateways.
 Usage:
 neutron l2-remote-gateway-list <remote-gw-name/uuid>
 ```
+##### 2.3 Gateway Commands
+To be able to connect two overlay networks, the following command will be added to the API:
 
-``
-
+###### 2.3.1.	l2-remote-gateway-connection-create
+This command creates a new connection to a remote gateway
+```
+Usage:
+neutron l2-remote-gateway-connection-create <gateway-name/uuid>  
+–remote=<remote-gw-name/uuid>
+--segmentation-id=<sed-id> 
+````
+###### 2.3.2. l2-remote-gateway-connection-update
+This command can be used to update the remote gateway or/and the segmentation ID for the connection.
+```
+Usage:
+neutron l2-remote-gateway-connection-update <uuid>  
+[–remote=<remote-gw-name/uuid>]
+[--segmentation-id=<sed-id>]
+````
+###### 2.3.3.	l2-remote-gateway-connection-delete
+This command can be used to delete a connection to a remote gateway.
+```
+Usage:
+neutron l2-remote-gateway-connection-delete <uuid>  
+````
 
