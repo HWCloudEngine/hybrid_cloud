@@ -50,3 +50,7 @@ Extend local LAN to remote sites with secured tunneling (GRE or VxLAN over IPSec
     - Online hybrid model to predict network performance in real time
 * Path Balancing
     - Optimize flow distribution over all paths
+
+
+# 3. Architecture
+![Architecture](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/WANV/images/WANV_architecture.png)
