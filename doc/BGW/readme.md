@@ -83,3 +83,7 @@ Main characteristics are
 
 ### End-to-end example
 ![example](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_example.png)
+
+
+### API
+https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/bambu_api.md#border-gateway-bgw
