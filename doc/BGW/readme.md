@@ -1,58 +1,85 @@
-# WAN Virtualization 
-
-![Basic](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/WANV/images/WANV_basic.png)
+# Border Gateway
 
 ## 1. Introduction
-### What is it?
-Huawei propritery solution based on commodity x86-based appliance for aggregating multiple low-cost WAN links to interconnect branches, remote offices and data centers
-### Business case:
-* Reduce OPEX by replacing lease lines (e.g. MPLS) with multiple low-cost DSL links
-* Enabler for enterprise hybrid cloud
 
-### What it can do?
-- Optimal link utilization
-- path protection & aggregation
-- flow-based load balancing, flow-based QoS/COS
-- HA
-- Extend local LAN to remote sites with secured tunneling (GRE or VxLAN over IPSec)
+![Overview](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_overview.png)
 
-### Differentiators
-* SDN application
-* Unlimited links with live network performance monitoring
-* Dynamic policies
-* Optimized and predictive routing (based on machine learning)
+### L2 Border-Gateway – What is it?
+Connect overlay networks with other external overlay networks in Layer 2.
 
-# 2. Deployment
+* L2 connection between multiple OpenStack clouds
+* Connect multiple overlay tenant networks
+* Use L2GW as baseline
+    - Same API, DB, OVSDB Hardware-VTEP Schema with minor modifications
+* Can use any tunneling protocols (VxLAN, NVGRE, Geneve, ETC.)  in the LAN and WAN
+* Layer 3 will be handled by DVR / DragonFlow / OVN, and alike.
 
-![Deployment](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/WANV/images/WANV_deployment.png)
+### Motivation:
+* Tricircle is an OpenStack project that aims to deal with OpenStack deployment in multiple sites. See https://docs.google.com/document/d/19BXf0RhkH8wEEymE2eHHqoDZ67gnzgvpr3atk4qwdGs/edit#heading=h.5r6zgqbiehsh
+Main characteristics are
+* Deferent neutron network
+* Single Keystone
+* TOP “Special Purpose” OpenStack to manage and orchestrate all the sites
+* Bottom, “Ordinary” OpenStack on each site
+* L2 Border Gateway is needed to add Layer 2 connectivity between overlay networks in deferent sites
+* Network orchestration will be done by the “TOP” OpenStack
 
-## Single-ended
-* Transparent
-    - NAT is done by gateway device (e.g. DSL modem/router)
-* Stickiness
-    - Flows remain on selected link and are not             re-routed
-* User Experience
-    - Best fitting link selected for each flow, based on round robin on available links
-    - Queuing discipline guarantees fairness and prevents bandwidth hogging
-    - Link based internet service delay measurement method 
-* Path Balancing
-    - Optimize flow distribution over all links
-    - Passive learning algorithm for long-term link utilization optimization
+### Current implementation
+![currentImplementation](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_currentImplementation.png)
+* Connect overlay networks with physical network
+* Use VxLAN towards overlay network and VLAN towards physical network
+* Bare-Metal server info (MAC, IP, port location) is in Hardware-VTEP db
 
-## Multi-ended
-* Secured Cross-Branch Tunneling
-    - Paths between branches use tunneling protocols (e.g. GRE, GRE over IPSEC)
-* Efficient
-    - WANV IP addresses are public, NAT is not done between branches
-* High Fidelity (site-to-site)
-    - Original packets not modified
-    - Internal IP addresses are retained
-* User Experience
-    - Flows are transparently re-routed to better paths in real-time
-    - Path performance is monitored in real-time (state, delay, delay variation, packet loss)
-    - Path protection with no noticeable interruption to ongoing user sessions
-    - Queuing discipline guarantees fairness and prevents bandwidth hogging
-    - Online hybrid model to predict network performance in real time
-* Path Balancing
-    - Optimize flow distribution over all paths
+### Needed Functionality
+![NeededFunctionality](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_neededFunctionality.png)
+* Use any network segmentation (VLAN, VxLAN, GRE, ETC.)
+* VxLAN only in first phase, but with support for deferent VNI on every tunnel.
 
+### L2GW building blocks
+![buildingBlocks](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_buildingBlocks.png)
+
+### HW VTEP Schema
+![hwvtepschema](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_hwVtepSchema.png)
+
+### Changes Needed:
+
+1. OVSDB Schema
+- Physical_Locator TABLE 
+- tunnel_key FIELD
+- Need to add this field to support per logical_port + physical_locator  (see Local_Switch table in the spec: http://openvswitch.org/docs/vtep.5.pdf )
+
+2. Neutron DB
+- L2GW DB Model
+    - Add McastMacRemote
+        - Use this record to instruct the switch to flood packets to unknown MAC to list of tunnels (Physical_Locator list)
+- L2gatewayconnections DB Table
+    - Add tunnel_id filed that will hold the Physical_Locator ID
+- physical_locators DB Table
+    - Add tunnel_key field
+
+3. API
+- Command: l2-gateway-create
+    - Allow device name without interfaces
+
+- Add Command: l2-border-gateway-connection-CRUD (similar to l2-gateway-connection-create)
+    - Create Physical_Locator to the remote GW with tunnel_key field that was supplied in the command in segmentation_id field
+    - Add Physical_Locator to Mcast_Macs_Remote table with keyword ‘unknown_dst’ in MAC field (used for flooding)
+
+- Add command: mac-CRUD
+    - Fields:  gw_name, tunnel_id, mac, ip (optional)
+    - Insert and remove MAC addresses to the Ucast_Macs_Remote table
+
+### Challanges
+* Security
+- Using 2 different APIs to connect overlay network A in OpenStack X to network B in OpenStack Y is risky.  E.g. cross-connecting networks of different tenants 
+    - Possible solution 1: top (over-cloud) management, that handles both ends (like Tricircle “Cascading” service)
+    - Possible solution 2: peer-to-peer handshake between the gateways, to validate/authenticate, specifics TBD (if we want to pursue this path)
+
+* L3, Routing, Default-Gateway
+    - Layer 3 in taking care using other components (DragonFlow / OVN / etc. ) and orchestrated by top level management, such as TriCircle or alike.
+
+* External Network
+    - Need to take care of routing to external network , NAT and floating IP. This will be handled by orchestrating using top level management, such as TriCircle
+
+### End-to-end example
+![example](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_example.png)
