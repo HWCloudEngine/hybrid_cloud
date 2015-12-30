@@ -41,14 +41,14 @@ Main characteristics are
 ### HW VTEP Schema
 ![hwvtepschema](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_hwVtepSchema.png)
 
-* Changes needed *
+1. Changes needed 
 
-* OVSDB Schema
+1.1. OVSDB Schema
 - Physical_Locator TABLE 
 - tunnel_key FIELD
 - Need to add this field to support per logical_port + physical_locator  (see Local_Switch table in the spec: http://openvswitch.org/docs/vtep.5.pdf )
 
-* Neutron DB
+1.2 Neutron DB
 - L2GW DB Model
     - Add McastMacRemote
         - Use this record to instruct the switch to flood packets to unknown MAC to list of tunnels (Physical_Locator list)
@@ -57,7 +57,7 @@ Main characteristics are
 - physical_locators DB Table
     - Add tunnel_key field
 
-* API
+1.3. API
 - Command: l2-gateway-create
     - Allow device name without interfaces
 
