@@ -44,6 +44,8 @@ The agent uses OVS to implement the packet manipulation (encapsulation, routing,
 In this solution, the tenant workload is packaged as a *Container Image* and executed inside a *Container*.  
 The Agent runs outside the *Container* (i.e. directly in the hosting VM) and provides the network services directly on the datapath of the *Container*.
 
+![Hyper VM](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BAMBU/images/HyperVMdeployment.png)   
+
 #### Compare *Intrusive* and *HyperVM* Agent-based
 
 The following diagram shows the basic components and concept of the two Agent-based solution options:
