@@ -41,14 +41,14 @@ Main characteristics are
 ### HW VTEP Schema
 ![hwvtepschema](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_hwVtepSchema.png)
 
-1. Changes needed 
+### Changes Needed:
 
-1.1. OVSDB Schema
+1. OVSDB Schema
 - Physical_Locator TABLE 
 - tunnel_key FIELD
 - Need to add this field to support per logical_port + physical_locator  (see Local_Switch table in the spec: http://openvswitch.org/docs/vtep.5.pdf )
 
-1.2 Neutron DB
+2. Neutron DB
 - L2GW DB Model
     - Add McastMacRemote
         - Use this record to instruct the switch to flood packets to unknown MAC to list of tunnels (Physical_Locator list)
@@ -57,7 +57,7 @@ Main characteristics are
 - physical_locators DB Table
     - Add tunnel_key field
 
-1.3. API
+3. API
 - Command: l2-gateway-create
     - Allow device name without interfaces
 
@@ -69,3 +69,17 @@ Main characteristics are
     - Fields:  gw_name, tunnel_id, mac, ip (optional)
     - Insert and remove MAC addresses to the Ucast_Macs_Remote table
 
+### Challanges
+* Security
+- Using 2 different APIs to connect overlay network A in OpenStack X to network B in OpenStack Y is risky.  E.g. cross-connecting networks of different tenants 
+    - Possible solution 1: top (over-cloud) management, that handles both ends (like Tricircle “Cascading” service)
+    - Possible solution 2: peer-to-peer handshake between the gateways, to validate/authenticate, specifics TBD (if we want to pursue this path)
+
+* L3, Routing, Default-Gateway
+    - Layer 3 in taking care using other components (DragonFlow / OVN / etc. ) and orchestrated by top level management, such as TriCircle or alike.
+
+* External Network
+    - Need to take care of routing to external network , NAT and floating IP. This will be handled by orchestrating using top level management, such as TriCircle
+
+### End-to-end example
+![example](https://github.com/Hybrid-Cloud/hybrid_cloud/blob/master/doc/BGW/images/L2GW_example.png)
