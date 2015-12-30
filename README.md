@@ -1,4 +1,4 @@
-# Hyper Network
+# Bambu - Hyper Network
 ## Overview
 The Hyper Network provides a stretched L2 connectivity across the hyper virtual private cloud (Hyper VPC).   
 In other words, it enables the connectivity between tenant VMs that run on top of different bottom cloud providers.   
