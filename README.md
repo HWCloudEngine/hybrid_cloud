@@ -1,6 +1,6 @@
 # Bambu - cross cloud connectivity
 
-![Bambu](doc/BAMBU/images/bambu - logo - small.png "Bambu - cross cloud connectivity")
+![Bambu](doc/BAMBU/images/bambu.logo.small.2.png "Bambu - cross cloud connectivity")
 
 
 * [Bambu Overview](doc/BAMBU/README.md)   
