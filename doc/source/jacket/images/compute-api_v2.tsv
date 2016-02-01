@@ -1,6 +1,4 @@
-Category	API	Parameters	Optional	"FusionSphere Support
-£¨Y1:Ö§³ÖÎ´ÑéÖ¤
-Y:¹Ù·½Ğû³ÆÖ§³Ö£©"	Hybrid Cloud Support	Solution
+Category	API	Parameters	Optional	"FusionSphere Support"	Hybrid Cloud Support	Solution
 Compute API v2 (SUPPORTED)						
 API versions	List API versions			Y1	Y	
 Limits	List limits			Y1	Y	
@@ -16,22 +14,22 @@ Servers	List servers			Y	Y
 		networks:port	Y	Y	Y	
 		networks:fixed_ip	Y	Y	Y	
 		metadata	Y	Y	Y	
-		personality	Y	Y	Y	ÈİÆ÷Ö§³ÖÖ±½ÓĞŞ¸ÄÎÄ¼ş
-		block_device_mapping_v2	Y	Y	Y(ÓĞ²îÒì)	
+		personality	Y	Y	Y	å®¹å™¨æ”¯æŒç›´æ¥ä¿®æ”¹æ–‡ä»¶
+		block_device_mapping_v2	Y	Y	Y(æœ‰å·®å¼‚)	
 		device_name	Y	Y	Y	
 		source_type	Y	Y	Y	
 		destination_type	Y	Y	Y	
 		delete_on_termination	Y	Y	Y	
-		guest_format	Y	Y	N	Ö¸¶¨´ÅÅÌÎÄ¼şÀàĞÍ£¨ephemeral or swap£©
+		guest_format	Y	Y	N	æŒ‡å®šç£ç›˜æ–‡ä»¶ç±»å‹ï¼ˆephemeral or swapï¼‰
 		boot_index	Y	Y	Y	
 		config_drive	Y	Y	N	
 		key_name	Y	Y	Y	
-		os:scheduler_hints	Y	Y	N	Ö»ÓĞÒ»¸öhost£¬²»´æÔÚhostµ÷¶ÈÑ¡Ôñ
-		OS-DCF:diskConfig	Y	Y	Y	¾µÏñĞèÒª¼ÇÂ¼Êµ¼ÊÕ¼ÓÃ´óĞ¡
+		os:scheduler_hints	Y	Y	N	åªæœ‰ä¸€ä¸ªhostï¼Œä¸å­˜åœ¨hostè°ƒåº¦é€‰æ‹©
+		OS-DCF:diskConfig	Y	Y	Y	é•œåƒéœ€è¦è®°å½•å®é™…å ç”¨å¤§å°
 	List details for servers			Y	Y	
 	Get server details			Y	Y	
-	Update server			Y	Y	Ë¢ĞÂÊı¾İ¿â¼ÇÂ¼
-	Delete server			Y	Y	É¾³ıÈİÆ÷+ĞéÄâ»ú
+	Update server			Y	Y	åˆ·æ–°æ•°æ®åº“è®°å½•
+	Delete server			Y	Y	åˆ é™¤å®¹å™¨+è™šæ‹Ÿæœº
 Server metadata	Show server metadata			Y1	Y1	
 	Create or replace server metadata items			Y1	Y1	
 	Update server metadata items			Y1	Y1	
@@ -42,11 +40,11 @@ Server addresses	List addresses			Y1	Y1
 	List addresses by network			Y1	Y1	
 Server actions	Change password			Y1	Y1	
 	Reboot server			Y	Y	
-	Rebuild server			Y1	Y	Ìæ»»¾µÏñÖØĞÂ´´½¨ĞéÄâ»ú£¨Èç¹ûÊ¹ÓÃvolumeÆô¶¯ĞéÄâ»ú£¬ÔòÃ»ÓĞÈÎºÎ±ä»¯£©http://blog.csdn.net/lynn_kong/article/details/9102253
-	Resize server			Y1	N	Ö¸¶¨flavorÇ¨ÒÆĞéÄâ»ú£¨µ±Ç°¼¶Áª·½°¸£¬±»¼¶Áª²ãÖ»ÓĞÒ»¸öhost£¬´Ë´¦»áÖ±½Ó±¨´í£¬ĞèÒªĞŞ¸Änova-api´úÂë²ÅÄÜÖ§³Ö£©http://docs.openstack.org/user-guide/cli_change_the_size_of_your_server.html
-	Confirm resized server			Y1	N	Èç¹ûresize³É¹¦£¬ĞéÄâ»ú×´Ì¬±äÎªVERIFY_RESIZE£¬Confirm resizeºó£¬ĞéÄâ»ú×´Ì¬±äÎªACTIVE
-	Revert resized server			Y1	N	Èç¹ûresizeÊ§°Ü£¬¿ÉÒÔrevert resize£¬ÖØĞÂ»Ø¹ö
-	Create image			Y	Y?	Ê¹ÓÃdockerµÄµ¼³ö¾µÏñ¹¦ÄÜ
+	Rebuild server			Y1	Y	æ›¿æ¢é•œåƒé‡æ–°åˆ›å»ºè™šæ‹Ÿæœºï¼ˆå¦‚æœä½¿ç”¨volumeå¯åŠ¨è™šæ‹Ÿæœºï¼Œåˆ™æ²¡æœ‰ä»»ä½•å˜åŒ–ï¼‰http://blog.csdn.net/lynn_kong/article/details/9102253
+	Resize server			Y1	N	æŒ‡å®šflavorè¿ç§»è™šæ‹Ÿæœºï¼ˆå½“å‰çº§è”æ–¹æ¡ˆï¼Œè¢«çº§è”å±‚åªæœ‰ä¸€ä¸ªhostï¼Œæ­¤å¤„ä¼šç›´æ¥æŠ¥é”™ï¼Œéœ€è¦ä¿®æ”¹nova-apiä»£ç æ‰èƒ½æ”¯æŒï¼‰http://docs.openstack.org/user-guide/cli_change_the_size_of_your_server.html
+	Confirm resized server			Y1	N	å¦‚æœresizeæˆåŠŸï¼Œè™šæ‹ŸæœºçŠ¶æ€å˜ä¸ºVERIFY_RESIZEï¼ŒConfirm resizeåï¼Œè™šæ‹ŸæœºçŠ¶æ€å˜ä¸ºACTIVE
+	Revert resized server			Y1	N	å¦‚æœresizeå¤±è´¥ï¼Œå¯ä»¥revert resizeï¼Œé‡æ–°å›æ»š
+	Create image			Y	Y?	ä½¿ç”¨dockerçš„å¯¼å‡ºé•œåƒåŠŸèƒ½
 Flavors	List flavors			Y	Y	
 	List details for flavors			Y	Y	
 	Get flavor details			Y	Y	
@@ -81,16 +79,16 @@ Servers with mac_addr extended attribute (servers)	Create server with OS-EXT-IPS
 	Show server information			Y1	Y1	
 	Get server details			Y	Y1	
 Servers with scheduler hints (servers)	Create server with scheduler hints			Y	N	
-"Servers deferred delete (servers, action)"	Force delete server			Y1	Y	Ä¬ÈÏÖ»ÓĞ¹ÜÀíÔ±²ÅÄÜÖ´ĞĞ¸Ã²Ù×÷£¬Ö±½Ó½«ĞéÄâ»ú´Ó´ÅÅÌÉÏÉ¾³ı¡£
-	Restore server			Y1	Y	Ä¬ÈÏÖ»ÓĞ¹ÜÀíÔ±²ÅÄÜÖ´ĞĞ¸Ã²Ù×÷£¬Èç¹ûnovaÅäÖÃÁËreclaim_instance_interval£¬ÔòĞéÄâ»úÊÇ±»¼ÙÉ¾³ı£¬ÔÚÖÜÆÚÄÚ»¹¿ÉÒÔÍ¨¹ırestore»Ö¸´
-"Servers rescue and unrescue (servers, action)"	Rescue server			N	N	proxyÃ»ÓĞ¸Ã½Ó¿Ú(Óª¾ÈÒ»¸ö¹ÊÕÏĞéÄâ»úµÄÊı¾İ¡£Ö¸¶¨ÃÜÂëÒÔ¼°Óª¾È¾µÏñ´´½¨Ò»¸öĞéÄâ»ú£¬ÓÃÕâ¸öĞéÄâ»úÔÙÈ¥»Ö¸´Êı¾İ¡£)
-	Unrescue server			N	N	proxyÃ»ÓĞ¸Ã½Ó¿Ú£¨»Ø¹ö£©
-"Servers shelve (servers, action)"	Shelve server			N	N	proxyÃ»ÓĞ¸Ã½Ó¿Ú£¨¸éÖÃÒ»¸öĞéÄâ»ú¡£Í£Ö¹ĞéÄâ»ú£¬²¢×ö¿ìÕÕ£©
-	Remove a shelved instance			N	N	proxyÃ»ÓĞ¸Ã½Ó¿Ú£¨É¾³ıĞéÄâ»ú£©
-	Restore shelved server			N	N	proxyÃ»ÓĞ¸Ã½Ó¿Ú£¨»Ö¸´¸éÖÃµÄĞéÄâ»ú£©
+"Servers deferred delete (servers, action)"	Force delete server			Y1	Y	é»˜è®¤åªæœ‰ç®¡ç†å‘˜æ‰èƒ½æ‰§è¡Œè¯¥æ“ä½œï¼Œç›´æ¥å°†è™šæ‹Ÿæœºä»ç£ç›˜ä¸Šåˆ é™¤ã€‚
+	Restore server			Y1	Y	é»˜è®¤åªæœ‰ç®¡ç†å‘˜æ‰èƒ½æ‰§è¡Œè¯¥æ“ä½œï¼Œå¦‚æœnovaé…ç½®äº†reclaim_instance_intervalï¼Œåˆ™è™šæ‹Ÿæœºæ˜¯è¢«å‡åˆ é™¤ï¼Œåœ¨å‘¨æœŸå†…è¿˜å¯ä»¥é€šè¿‡restoreæ¢å¤
+"Servers rescue and unrescue (servers, action)"	Rescue server			N	N	proxyæ²¡æœ‰è¯¥æ¥å£(è¥æ•‘ä¸€ä¸ªæ•…éšœè™šæ‹Ÿæœºçš„æ•°æ®ã€‚æŒ‡å®šå¯†ç ä»¥åŠè¥æ•‘é•œåƒåˆ›å»ºä¸€ä¸ªè™šæ‹Ÿæœºï¼Œç”¨è¿™ä¸ªè™šæ‹Ÿæœºå†å»æ¢å¤æ•°æ®ã€‚)
+	Unrescue server			N	N	proxyæ²¡æœ‰è¯¥æ¥å£ï¼ˆå›æ»šï¼‰
+"Servers shelve (servers, action)"	Shelve server			N	N	proxyæ²¡æœ‰è¯¥æ¥å£ï¼ˆæç½®ä¸€ä¸ªè™šæ‹Ÿæœºã€‚åœæ­¢è™šæ‹Ÿæœºï¼Œå¹¶åšå¿«ç…§ï¼‰
+	Remove a shelved instance			N	N	proxyæ²¡æœ‰è¯¥æ¥å£ï¼ˆåˆ é™¤è™šæ‹Ÿæœºï¼‰
+	Restore shelved server			N	N	proxyæ²¡æœ‰è¯¥æ¥å£ï¼ˆæ¢å¤æç½®çš„è™šæ‹Ÿæœºï¼‰
 "Servers start and stop (servers, action)"	Start server			Y	Y	
 	Stop server			Y	Y	
-"Servers diagnostics (servers, diagnostics)"	Get server diagnostics			N	N	proxy²»Ö§³Ö
+"Servers diagnostics (servers, diagnostics)"	Get server diagnostics			N	N	proxyä¸æ”¯æŒ
 "Servers and images with disk config (servers, images)"	Create server			Y	Y	
 	Show server information			Y	Y1	
 	Update server			Y	Y1	
@@ -103,10 +101,10 @@ Servers with scheduler hints (servers)	Create server with scheduler hints			Y	N
 	List availability zones			Y1	Y	
 	List availability zones with details			Y1	Y	
 	Show availability zone information			Y1	Y	
-"Servers instance actions (servers, os-instance-actions)"	List server actions			Y1	Y	²éÑ¯ĞéÄâ»ú²Ù×÷ÀúÊ·¼ÇÂ¼
-	Get action details			Y1	Y	²éÑ¯ĞéÄâ»ú²Ù×÷ÏêÇé
+"Servers instance actions (servers, os-instance-actions)"	List server actions			Y1	Y	æŸ¥è¯¢è™šæ‹Ÿæœºæ“ä½œå†å²è®°å½•
+	Get action details			Y1	Y	æŸ¥è¯¢è™šæ‹Ÿæœºæ“ä½œè¯¦æƒ…
 "Servers password (servers, os-server-password)"	Get server password			Y1	Y	
-	Clear server password			Y1	Y	Çå³ımetadata serverÖĞµÄadministartor password
+	Clear server password			Y1	Y	æ¸…é™¤metadata serverä¸­çš„administartor password
 "Servers virtual interfaces (servers, os-virtual-interfaces)"	List virtual interfaces			Y1	Y	
 	Show virtual interface and attached network			Y1	Y	
 "Servers with volume attachments (servers, os-volume_attachments)"	Attach volume			Y	Y	
@@ -157,7 +155,7 @@ Hosts (os-hosts)	List hosts			Y1	Y
 	Start host			N	N	
 	Shut down host			N	N	
 	Reboot host			N	N	
-Hypervisors (os-hypervisors)	List hypervisors			N	N	Ò»¸ö±»¼¶Áª²ã¶ÔÓ¦Ò»¸öproxyÒ²¾ÍÊÇÒ»¸öhypervisor host£¬¸Ã½Ó¿ÚÓëÔ¤Ïë½á¹û²»Ò»ÖÂ
+Hypervisors (os-hypervisors)	List hypervisors			N	N	ä¸€ä¸ªè¢«çº§è”å±‚å¯¹åº”ä¸€ä¸ªproxyä¹Ÿå°±æ˜¯ä¸€ä¸ªhypervisor hostï¼Œè¯¥æ¥å£ä¸é¢„æƒ³ç»“æœä¸ä¸€è‡´
 	Show hypervisor information			N	N	
 	Show statistics for hypervisors			N	N	
 	Show hypervisor up time			N	N	
@@ -183,7 +181,7 @@ Quota sets (os-quota-sets)	Show quotas			Y	Y
 	Delete quotas for user			Y1	Y	
 	Show quota details for user			Y1	Y	
 Server groups (os-server-groups)	List server groups			Y1	Y	
-	Create server group			Y1	Y	·şÎñÆ÷×é£¬²ßÂÔÓÃÓÚÖ¸¶¨·¢·ÅĞéÄâ»úÊÇ·ñÔÚÍ¬Ò»¸öhypervisorÄÚ£¨Í¨¹ıhintÖ¸¶¨£©£¬hypervisorĞÅÏ¢Í¨¹ınova show serverid ²éÑ¯hostId×Ö¶Î
+	Create server group			Y1	Y	æœåŠ¡å™¨ç»„ï¼Œç­–ç•¥ç”¨äºæŒ‡å®šå‘æ”¾è™šæ‹Ÿæœºæ˜¯å¦åœ¨åŒä¸€ä¸ªhypervisorå†…ï¼ˆé€šè¿‡hintæŒ‡å®šï¼‰ï¼Œhypervisorä¿¡æ¯é€šè¿‡nova show serverid æŸ¥è¯¢hostIdå­—æ®µ
 	Show server group details			Y1	Y	
 	Delete server group			Y1	Y	
 Manage services (os-services)	List services			Y1	Y	
