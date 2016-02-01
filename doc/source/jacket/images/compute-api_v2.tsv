@@ -106,7 +106,7 @@ Servers with scheduler hints (servers)	Create server with scheduler hints			Y	N
 	Clear server password			Y1	Y	清除metadata server中的administartor password
 "Servers virtual interfaces (servers, os-virtual-interfaces)"	List virtual interfaces			Y1	Y	
 	Show virtual interface and attached network			Y1	Y	
-"Servers with volume attachments (servers, os-volume_attachments)"	Attach volume			Y	Y	
+"Servers with volume attachments (servers)"	Attach volume			Y	Y	
 	List volume attachments			Y1	Y	
 	Show volume attachment details			Y1	Y	
 	Detach volume			Y	Y	
@@ -259,7 +259,7 @@ Security groups (os-security-groups)	List security groups
 	Delete security group					
 Rules for security group (os-security-group-rules)	Create security group rule					
 	Delete security group rule					
-Rules for default security group (os-security-group-default-rules)	List default security group rules					
+Rules for default security group 	List default security group rules					
 	Create default security group rule					
 	Show default security group rule information					
 	Delete default security group rule					
