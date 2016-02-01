@@ -1,0 +1,282 @@
+Category	API	Description	Method	URI	Parameters	Optional	"FusionSphere Support
+（Y1:支持未验证
+Y:官方宣称支持）"	Hybrid Cloud Support	Solution
+Compute API v2 (SUPPORTED)									
+API versions	List API versions	Lists information about all Compute API versions.	GET	/			Y1	Y	
+Limits	List limits	Lists the current absolute and rate limits for a specified project.	GET	/v2/{tenant_id}/limits			Y1	Y	
+Extensions	List extensions	Lists available extensions.	GET	/v2/extensions			Y1	Y	
+	Get extension	Gets details about the specified extension.	GET	/v2/extensions/{alias}			Y1	Y	
+Servers	List servers	"Lists IDs, names, and links for all servers."	GET	/v2/{tenant_id}/servers			Y	Y	
+	Create server	Creates a server.	POST	/v2/{tenant_id}/servers	security_groups	Y	Y	Y	Create VM + Run Container
+					user_data	Y	Y	Y	
+					availability_zone	Y	Y	Y	
+					imageRef	N	Y	Y	
+					flavorRef	N	Y	Y	
+					networks:uuid	Y	Y	Y	
+					networks:port	Y	Y	Y	
+					networks:fixed_ip	Y	Y	Y	
+					metadata	Y	Y	Y	
+					personality	Y	Y	Y	容器支持直接修改文件
+					block_device_mapping_v2	Y	Y	Y(有差异)	
+					device_name	Y	Y	Y	
+					source_type	Y	Y	Y	
+					destination_type	Y	Y	Y	
+					delete_on_termination	Y	Y	Y	
+					guest_format	Y	Y	N	指定磁盘文件类型（ephemeral or swap）
+					boot_index	Y	Y	Y	
+					config_drive	Y	Y	N	
+					key_name	Y	Y	Y	
+					os:scheduler_hints	Y	Y	N	只有一个host，不存在host调度选择
+					OS-DCF:diskConfig	Y	Y	Y	镜像需要记录实际占用大小
+	List details for servers	Lists details for all servers.	GET	/v2/{tenant_id}/servers/detail			Y	Y	
+	Get server details	Gets details for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}			Y	Y	
+	Update server	Updates the editable attributes of the specified server.	PUT	/v2/{tenant_id}/servers/{server_id}			Y	Y	刷新数据库记录
+	Delete server	Deletes a specified server.	DELETE	/v2/{tenant_id}/servers/{server_id}			Y	Y	删除容器+虚拟机
+Server metadata	Show server metadata	Shows metadata for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/metadata			Y1	Y1	
+	Create or replace server metadata items	Creates or replaces metadata items for a specified server.	POST	/v2/{tenant_id}/servers/{server_id}/metadata			Y1	Y1	
+	Update server metadata items	Updates metadata items by key for a specified server.	PUT	/v2/{tenant_id}/servers/{server_id}/metadata			Y1	Y1	
+	Show server metadata item details	Shows details for a metadata item by key for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/metadata/{key}			Y1	Y1	
+	Create or update server metadata item	Sets a metadata item by key for a specified server.	POST	/v2/{tenant_id}/servers/{server_id}/metadata/{key}			Y1	Y1	
+	Delete server metadata item	Deletes a metadata item by key for a specified server.	DELETE	/v2/{tenant_id}/servers/{server_id}/metadata/{key}			Y1	Y1	
+Server addresses	List addresses	Lists networks and addresses for a specified tenant and server.	GET	/v2/{tenant_id}/servers/{server_id}/ips			Y1	Y1	
+	List addresses by network	"Lists addresses for a specified tenant, server, and network."	GET	/v2/{tenant_id}/servers/{server_id}/ips/{network_label}			Y1	Y1	
+Server actions	Change password	Changes the password for a server. Specify thechangePassword?action in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y1	
+	Reboot server	Reboots the specified server. Specify the?rebootaction in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y	Y	
+	Rebuild server	Rebuilds the specified server. Specify the?rebuildaction in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y	替换镜像重新创建虚拟机（如果使用volume启动虚拟机，则没有任何变化）http://blog.csdn.net/lynn_kong/article/details/9102253
+	Resize server	Resizes the specified server. Specify the?resizeaction in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	N	指定flavor迁移虚拟机（当前级联方案，被级联层只有一个host，此处会直接报错，需要修改nova-api代码才能支持）http://docs.openstack.org/user-guide/cli_change_the_size_of_your_server.html
+	Confirm resized server	Confirms a pending resize action. Specify theconfirmResize?action in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	N	如果resize成功，虚拟机状态变为VERIFY_RESIZE，Confirm resize后，虚拟机状态变为ACTIVE
+	Revert resized server	Cancels and reverts a pending resize action. Specify the?revertResize?action in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	N	如果resize失败，可以revert resize，重新回滚
+	Create image	Creates an image. Specify the?createImage?action in the request body.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y	Y?	使用docker的导出镜像功能
+Flavors	List flavors	"Lists IDs, names, and links for available flavors."	GET	/v2/{tenant_id}/flavors			Y	Y	
+	List details for flavors	Lists all details for available flavors.	GET	/v2/{tenant_id}/flavors/detail			Y	Y	
+	Get flavor details	Gets details for a specified flavor.	GET	/v2/{tenant_id}/flavors/{flavor_id}			Y	Y	
+Images	List images	"Lists IDs, names, and links for available images."	GET	/v2/{tenant_id}/images			Y1	Y1	
+	List images details	Lists all details for available images.	GET	/v2/{tenant_id}/images/detail			Y1	Y1	
+	Get image details	Gets details for a specified image.	GET	/v2/{tenant_id}/images/{image_id}			Y1	Y1	
+	Delete image	Deletes a specified image.	DELETE	/v2/{tenant_id}/images/{image_id}			Y1	Y1	
+Image metadata	Show image metadata	Shows metadata for a specified image.	GET	/v2/{tenant_id}/images/{image_id}/metadata			Y1	Y1	
+	Create or replace image metadata	Creates or replaces metadata for a specified image.	POST	/v2/{tenant_id}/images/{image_id}/metadata			Y1	Y1	
+	Update image metadata items	Updates metadata items by key for a specified image.	PUT	/v2/{tenant_id}/images/{image_id}/metadata			Y1	Y1	
+	Show image metadata item details	Shows details for a metadata item by key for a specified image.	GET	/v2/{tenant_id}/images/{image_id}/metadata/{key}			Y1	Y1	
+	Create or update image metadata item	Creates or updates a metadata item by key for a specified image.	POST	/v2/{tenant_id}/images/{image_id}/metadata/{key}			Y1	Y1	
+	Delete image metadata item	Deletes a metadata item by key for a specified image.	DELETE	/v2/{tenant_id}/images/{image_id}/metadata/{key}			Y1	Y1	
+Compute API v2 extensions (SUPPORTED)									
+Servers with block device mapping format (servers)	List servers	"Lists IDs, names, and links for all servers."	GET	/v2/{tenant_id}/servers			Y	Y	
+	Create server	Creates a server with a block device mapping.	POST	/v2/{tenant_id}/servers			Y	Y	
+Servers with configuration drive (servers)	Create server with configuration drive	Creates a server with the configuration drive extended attribute.	POST	/v2/{tenant_id}/servers			Y	N	
+	Get server information with configuration drive	Shows information for a specified server including the configuration drive extended attribute.	GET	/v2/{tenant_id}/servers/{server_id}			Y	N	
+	Get server details with configuration drive	Lists details for all servers including the configuration drive extended attribute.	GET	/v2/{tenant_id}/servers/{server_id}/detail			Y	N	
+Servers console (servers)	Get console	Gets a console for a server instance.	GET	/v2/{tenant_id}/servers/{server_id}/action			Y	Y	
+Servers console output (servers)	Get console output for an instance	Gets console output for a server instance.	GET	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y	
+Servers extended attributes (servers)	List servers with extended server attributes	Lists detailed extended server attribute information for all servers.	GET	/v2/{tenant_id}/servers			Y1	Y1	
+	Show extended server attributes	Shows extended server attributes for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}			Y1	Y1	
+Servers with extended availability zones (servers)	Show server	"Shows information for a specified server, including its availability zone."	GET	/v2/{tenant_id}/servers/{server_id}			Y	Y1	
+	List details for servers	"Lists details for servers, including their current availability zone."	GET	/v2/{tenant_id}/servers/detail			Y	Y1	
+Servers extended status (servers)	Show server extended status	Shows the extended status attributes in the response for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}			Y	Y1	
+	List extended status for servers	Lists the extended status attributes in the detailed response for all servers.	GET	/v2/{tenant_id}/servers/detail			Y	Y1	
+Servers with IP type (servers)	Show IP type	"Shows the type of IP assigned to a specified server, either fixed or floating."	GET	/v2/{tenant_id}/servers/{server_id}/action			Y	Y1	
+	List servers with IP type	Lists servers and shows their IPs by type. Type is either fixed or floating.	GET	/v2/{tenant_id}/servers/detail			Y	Y1	
+Servers multiple create (servers)	Create multiple servers	Creates one or more servers with an optional reservation ID.	POST	/v2/{tenant_id}/servers			Y1	Y1	
+Servers with mac_addr extended attribute (servers)	Create server with OS-EXT-IPS-MAC:mac_addr extended attribute	Creates a server with the OS-EXT-IPS-MAC:mac_addr extended attribute.	POST	/v2/{tenant_id}/servers					
+	Show server information	Shows information for a specified server. Includes the OS-EXT-IPS-MAC:mac_addr extended attribute.	GET	/v2/{tenant_id}/servers/{server_id}			Y1	Y1	
+	Get server details	Lists details for all servers. Includes the OS-EXT-IPS-MAC:mac_addr extended attribute.	GET	/v2/{tenant_id}/servers/detail			Y	Y1	
+Servers with scheduler hints (servers)	Create server with scheduler hints	Creates a server with scheduler hints that are passed directly to the scheduler.	POST	/v2/{tenant_id}/servers			Y	N	
+"Servers deferred delete (servers, action)"	Force delete server	Force-deletes a server.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y	默认只有管理员才能执行该操作，直接将虚拟机从磁盘上删除。
+	Restore server	Restores a deleted server.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y	默认只有管理员才能执行该操作，如果nova配置了reclaim_instance_interval，则虚拟机是被假删除，在周期内还可以通过restore恢复
+"Servers rescue and unrescue (servers, action)"	Rescue server	Puts a server in rescue mode. Changes status toRESCUE.	POST	/v2/{tenant_id}/servers/{server_id}/action			N	N	proxy没有该接口(营救一个故障虚拟机的数据。指定密码以及营救镜像创建一个虚拟机，用这个虚拟机再去恢复数据。)
+	Unrescue server	Unrescues a server. Changes status to?ACTIVE.	POST	/v2/{tenant_id}/servers/{server_id}/action			N	N	proxy没有该接口（回滚）
+"Servers shelve (servers, action)"	Shelve server	Shelves a running server.	POST	/v2/{tenant_id}/servers/{server_id}/action			N	N	proxy没有该接口（搁置一个虚拟机。停止虚拟机，并做快照）
+	Remove a shelved instance	Removes an instance from the server.	POST	/v2/{tenant_id}/servers/{server_id}/action			N	N	proxy没有该接口（删除虚拟机）
+	Restore shelved server	Restores a shelved server.	POST	/v2/{tenant_id}/servers/{server_id}/action			N	N	proxy没有该接口（恢复搁置的虚拟机）
+"Servers start and stop (servers, action)"	Start server	Starts a stopped server and changes its status toACTIVE.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y	Y	
+	Stop server	Stops a running server and changes its status toSHUTOFF.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y	Y	
+"Servers diagnostics (servers, diagnostics)"	Get server diagnostics	Gets basic usage data for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/diagnostics			N	N	proxy不支持
+"Servers and images with disk config (servers, images)"	Create server	Creates a server.	POST	/v2/{tenant_id}/servers			Y	Y	
+	Show server information	Shows information for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}			Y	Y1	
+	Update server	Updates a specified server.	PUT	/v2/{tenant_id}/servers/{server_id}			Y	Y1	
+	Resize server	Resizes a server.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	N	
+	Rebuild server	Rebuilds a specified server.	POST	/v2/{tenant_id}/servers/{server_id}/action			Y1	Y	
+	List servers	Lists servers with detailed config drive information.	GET	/v2/{tenant_id}/servers/detail			Y	Y	
+	Get image information	Gets information for a specified image.	GET	/v2/{tenant_id}/images/{image_id}			Y1	Y	
+	List images	Lists images.	GET	/v2/{tenant_id}/images/detail			Y1	Y	
+"Servers availability zones (servers, os-availability-zone)"	Create server with availability zone	Creates a server with an availability zone.	POST	/v2/{tenant_id}/servers			Y	Y	
+	List availability zones	Lists all availability zones.	GET	/v2/{tenant_id}/os-availability-zone			Y1	Y	
+	List availability zones with details	Lists all availability zones with details.	GET	/v2/{tenant_id}/os-availability-zone/detail			Y1	Y	
+	Show availability zone information	Shows information for a specified availability zone.	GET	/v2/{tenant_id}/os-availability-zone/{availability_zone_id}			Y1	Y	
+"Servers instance actions (servers, os-instance-actions)"	List server actions	"Lists history of successful actions for a specified server. Deployers set permissions for this request in the?policy.json?file. By default, all users can list actions."	GET	/v2/{tenant_id}/servers/{server_id}/os-instance-actions			Y1	Y	查询虚拟机操作历史记录
+	Get action details	"Gets details for a specified action for a specified server instance. Deployers set permissions for this request in the?policy.json?file. By default, only administrators can get details for an action."	GET	/v2/{tenant_id}/servers/{server_id}/os-instance-actions/{action_id}			Y1	Y	查询虚拟机操作详情
+"Servers password (servers, os-server-password)"	Get server password	Gets the administrative password for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/os-server-password			Y1	Y	
+	Clear server password	Clears the encrypted copy of the password in the metadata server. This is done after the client has retrieved the password and knows it doesn't need it in the metadata server anymore. The password for the server remains the same.	DELETE	/v2/{tenant_id}/servers/{server_id}/os-server-password			Y1	Y	清除metadata server中的administartor password
+"Servers virtual interfaces (servers, os-virtual-interfaces)"	List virtual interfaces	Lists the virtual interfaces for a specified instance.	GET	/v2/{tenant_id}/servers/{server_id}/os-virtual-interfaces			Y1	Y	
+	Show virtual interface and attached network	Shows the virtual interface for a specified instance. Includes the?OS-EXT-VIF-NET:net_id?attribute that shows to which network the interface is attached.	GET	/v2/{tenant_id}/servers/{server_id}/os-virtual-interfaces			Y1	Y	
+"Servers with volume attachments (servers, os-volume_attachments)"	Attach volume	Attaches a volume to the specified server.	POST	/v2/{tenant_id}/servers/{server_id}/os-volume_attachments			Y	Y	
+	List volume attachments	Lists the volume attachments for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/os-volume_attachments			Y1	Y	
+	Show volume attachment details	Shows details for the specified volume attachment.	GET	/v2/{tenant_id}/servers/{server_id}/os-volume_attachments/{attachment_id}			Y1	Y	
+	Detach volume	Detaches the specified volume from a specified server.	DELETE	/v2/{tenant_id}/servers/{server_id}/os-volume_attachments/{attachment_id}			Y	Y	
+Server boot from volume (os-volumes_boot)	Create server	Starts a new instance from a bootable volume.	POST	/v2/{tenant_id}/os-volumes_boot			Y	Y	
+Flavors create and delete (flavors)	Create flavor	Creates a flavor.	POST	/v2/{tenant_id}/flavors			Y1	Y	
+	Delete flavor	Deletes a flavor.	DELETE	/v2/{tenant_id}/flavors/{flavor_id}			Y1	Y	
+Flavors with disabled attribute (flavors)	Get flavor disabled status details	Gets details for a specified flavor. Includes the?OS-FLV-DISABLED:disabled?attribute.	GET	/v2/{tenant_id}/flavors/{flavor_id}			Y1	Y	
+	List flavors with flavor disabled status	Lists available flavors. Includes the?OS-FLV-DISABLED:disabled?attribute.	GET	/v2/{tenant_id}/flavors/detail			Y1	Y	
+Flavors with extended attributes (flavors)	Create flavor with extra data	"Creates a flavor. Includes the rxtx_factor, OS-FLV-EXT-DATA:ephemeral, and swap extended attributes."	POST	/v2/{tenant_id}/flavors			Y1	Y	
+	Get flavor extra data details	"Gets details for a specified flavor. Includes the rxtx_factor, OS-FLV-EXT-DATA:ephemeral, and swap extended attributes."	GET	/v2/{tenant_id}/flavors/{flavor_id}			Y1	Y	
+	List flavors with extra data	"Lists available flavors. Includes the rxtx_factor, OS-FLV-EXT-DATA:ephemeral, and swap extended attributes."	GET	/v2/{tenant_id}/flavors/detail			Y1	Y	
+Flavors with rxtx_factor extended attribute (flavors)	Create flavor with rxtx_factor	Creates a flavor. Includes the rxtx_factor extended attribute.	POST	/v2/{tenant_id}/flavors			Y1	Y	
+	Get flavor with rxtx_factor	Gets details for a specified flavor. Includes the rxtx_factor extended attribute.	GET	/v2/{tenant_id}/flavors/{flavor_id}			Y1	Y	
+	Get flavor Details with rxtx_factor	Lists details for available flavors and includes the rxtx_factor extended attribute.	GET	/v2/{tenant_id}/flavors/detail			Y1	Y	
+"Flavors with extra-specs (flavors, os-extra-specs)"	List flavor extra specs	Lists the extra-specs or keys for the specified flavor.	GET	/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs			Y1	Y	
+	Create flavor extra specs	Creates extra-specs or keys for the specified flavor.	POST	/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs			Y	Y	
+	Get flavor extra spec details	Gets the value of the specified key.	GET	/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}			Y1	Y	
+	Update flavor extra specs	Updates the value of the specified extra-spec or key.	PUT	/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}			Y1	Y	
+	Delete flavor extra specs	Deletes a specified extra-spec by key.	DELETE	/v2/{tenant_id}/flavors/{flavor_id}/os-extra_specs/{key_id}			Y1	Y	
+"Flavors access (flavors, os-flavor-access)"	List flavors with access type	"Lists flavors and includes the access type, which is public or private."	GET	/v2/{tenant_id}/flavors			Y1	Y	
+	Create private flavor	Creates a private flavor.	POST	/v2/{tenant_id}/flavors			Y1	Y	
+	Show flavor access type	"Gets the flavor access type, which is public or private."	GET	/v2/{tenant_id}/flavors/{flavor_id}			Y1	Y	
+	List tenants with access to private flavor	Lists tenants with access to the specified private flavor.	GET	/v2/{tenant_id}/flavors/{flavor_id}/os-flavor-access			Y1	Y	
+	Add access to private flavor	Gives a specified tenant access to the specified private flavor.	POST	/v2/{tenant_id}/flavors/{flavor_id}/action			Y1	Y	
+	Delete access from private flavor	Revokes access from the specified tenant for the specified private flavor.	DELETE	/v2/{tenant_id}/flavors/{flavor_id}/action			Y1	Y	
+"Flavors swap (flavors, os-flavor-swap)"	List flavor extra specs	"Lists the flavor specs including swap value for the specified flavor. The swap value is the amount of swap disk space, in GBs, to allocate to a server."	GET	/v2/{tenant_id}/flavors/{flavor_id}/os-flavor-swap			Y1	Y	
+	Create flavor extra specs	"Creates flavor including swap value for the specified flavor. The swap value is the amount of swap disk space, in GBs, to allocate to a server."	POST	/v2/{tenant_id}/flavors/{flavor_id}/os-flavor-swap			Y1	Y	
+Limits with project usage (limits)	Get limits	"Gets absolute and rate limit information, including information on currently used absolute limits."	GET	/v2/{tenant_id}/limits			Y1	Y	
+Limits with project usage for administrators (limits)	Get customer limits	"Enables administrators to get absolute and rate limit information, including information about currently used absolute limits, for a specified customer tenant ID."	GET	/v2/{tenant_id}/limits{tenant_id}			Y1	Y	
+Guest agents (os-agents)	List agents	Lists all agent builds.	GET	/v2/{tenant_id}/os-agents			Y1	N	
+	Create agent	Creates an agent build.	POST	/v2/{tenant_id}/os-agents			Y1	N	
+	Delete agent	Deletes an existing agent build.	DELETE	/v2/{tenant_id}/os-agents			Y1	N	
+	Update agent	Updates an agent build.	PUT	/v2/{tenant_id}/os-agents/{id}			Y1	N	
+Host aggregates (os-aggregates)	List aggregates	Lists all aggregates.	GET	/v2/{tenant_id}/os-aggregates			Y1	Y	
+	Create aggregate	Creates an aggregate.	POST	/v2/{tenant_id}/os-aggregates			Y1	Y	
+	Delete aggregate	Deletes an aggregate.	DELETE	/v2/{tenant_id}/os-aggregates/{aggregate_id}			Y1	Y	
+	Get aggregate details	Gets details about a specified aggregate.	GET	/v2/{tenant_id}/os-aggregates/{aggregate_id}			Y1	Y	
+	Update aggregate	"Updates the name, and optionally the availability zone, for a specified aggregate."	PUT	/v2/{tenant_id}/os-aggregates/{aggregate_id}			Y1	Y	
+	Set aggregate metadata	Sets metadata for an aggregate.	POST	/v2/{tenant_id}/os-aggregates/{aggregate_id}/action			Y1	Y	
+	Add host to aggregate	Adds a host to an aggregate.	POST	/v2/{tenant_id}/os-aggregates/{aggregate_id}/action			Y1	Y	
+	Remove host from aggregate	Removes a host from an aggregate.	DELETE	/v2/{tenant_id}/os-aggregates/{aggregate_id}/action			Y1	Y	
+Hosts (os-hosts)	List hosts	Lists hosts.	GET	/v2/{tenant_id}/os-hosts			Y1	Y	
+	Show host information	Shows information for a specified host.	GET	/v2/{tenant_id}/os-hosts/{host_name}			Y1	Y	
+	Update host	Enables a host or puts it in maintenance mode.	PUT	/v2/{tenant_id}/os-hosts/{host_name}			N	N	
+	Start host	Starts a host.	GET	/v2/{tenant_id}/os-hosts/{host_name}/startup			N	N	
+	Shut down host	Shuts down a host.	GET	/v2/{tenant_id}/os-hosts/{host_name}/shutdown			N	N	
+	Reboot host	Reboots a host.	GET	/v2/{tenant_id}/os-hosts/{host_name}/reboot			N	N	
+Hypervisors (os-hypervisors)	List hypervisors	"Lists hypervisors information for each server obtained through the hypervisor-specific API, such as libvirt or XenAPI."	GET	/v2/{tenant_id}/os-hypervisors			N	N	一个被级联层对应一个proxy也就是一个hypervisor host，该接口与预想结果不一致
+	Show hypervisor information	Shows information for a specified hypervisor. Typically configured as an admin-only extension by using?policy.json?settings.	GET	/v2/{tenant_id}/os-hypervisors/detail			N	N	
+	Show statistics for hypervisors	Shows hypervisor statistics over all compute nodes.	GET	/v2/{tenant_id}/os-hypervisors/statistics			N	N	
+	Show hypervisor up time	Shows the up time for a specified hypervisor.	GET	/v2/{tenant_id}/os-hypervisors/{hypervisor_hostname}			N	N	
+	List instances for hypervisors	Lists instances that belong to specific hypervisors.	GET	/v2/{tenant_id}/os-hypervisors/{hypervisor_hostname}/servers			N	N	
+Hypervisor with status (os-hypervisor-status)	Show hypervisor information	Shows information for a specified hypervisor. Includes the hypervisor status.	GET	/v2/{tenant_id}/os-hypervisor-status/detail			N	N	
+Attach interfaces (os-interface)	Create interface	Creates and uses a port interface to attach the port to a server instance.	POST	/v2/{tenant_id}/servers/{server_id}/os-interface			Y1	Y	
+	List interfaces	Lists port interfaces.	GET	/v2/{tenant_id}/servers/{server_id}/os-interface			Y1	Y	
+	Show attached interface information	Shows information about a specified port interface.	GET	/v2/{tenant_id}/servers/{server_id}/os-interface/{attachment_id}			Y1	Y	
+	Detach interface	Detaches a specified port interface.	DELETE	/v2/{tenant_id}/servers/{server_id}/os-interface/{attachment_id}			Y1	Y	
+Keypairs (os-keypairs)	List keypairs	Lists keypairs that are associated with the account.	GET	/v2/{tenant_id}/os-keypairs			Y	Y	
+	Create or import keypair	Generates or imports a keypair.	POST	/v2/{tenant_id}/os-keypairs			Y	Y	
+	Delete keypair	Deletes a keypair.	DELETE	/v2/{tenant_id}/os-keypairs/{keypair_name}			Y	Y	
+	Show keypair information	Shows a keypair associated with the account.	GET	/v2/{tenant_id}/os-keypairs/{keypair_name}			Y	Y	
+Migrations (os-migrations)	Get migrations	Enables an administrative user to fetch in-progress migrations for a region or specified cell in a region.	GET	/v2/{tenant_id}/os-migrations			Y1	Y	
+Quota class (os-quota-class-sets)	Show quota	Shows the quota for a specified class.	GET	/v2/os-quota-class-sets/{class_id}			Y1	Y	
+	Update quota	Updates quota for a specified class.	PUT	/v2/os-quota-class-sets/{class_id}			Y1	Y	
+Quota sets (os-quota-sets)	Show quotas	Shows quotas for a tenant.	GET	/v2/{tenant_id}/os-quota-sets/{tenant_id}			Y	Y	
+	Update quotas	Updates quotas for a tenant.	PUT	/v2/{tenant_id}/os-quota-sets/{tenant_id}			Y	Y	
+	Delete quotas	Deletes quotas for a tenant so the quotas revert to default values.	DELETE	/v2/{tenant_id}/os-quota-sets/{tenant_id}			Y1	Y	
+	Get default quotas	Gets default quotas for a tenant.	GET	/v2/{tenant_id}/os-quota-sets/{tenant_id}/defaults			Y	Y	
+	Show quotas for user	Enables an admin user to show quotas for a specified tenant and user.	GET	/v2/{tenant_id}/os-quota-sets/{tenant_id}/{user_id}			Y1	Y	
+	Update quotas for user	Updates quotas for a specified tenant/project and user.	PUT	/v2/{tenant_id}/os-quota-sets/{tenant_id}/{user_id}			Y1	Y	
+	Delete quotas for user	Deletes quotas for a user so that the quotas revert to default values.	DELETE	/v2/{tenant_id}/os-quota-sets/{tenant_id}/{user_id}			Y1	Y	
+	Show quota details for user	Shows details for quotas for a specified tenant and user.	GET	/v2/{tenant_id}/os-quota-sets/{tenant_id}/detail/{user_id}			Y1	Y	
+Server groups (os-server-groups)	List server groups	Lists server groups.	GET	/v2/{tenant_id}/os-server-groups			Y1	Y	
+	Create server group	Creates a server group.	POST	/v2/{tenant_id}/os-server-groups			Y1	Y	服务器组，策略用于指定发放虚拟机是否在同一个hypervisor内（通过hint指定），hypervisor信息通过nova show serverid 查询hostId字段
+	Show server group details	Shows details for a specified server group.	GET	/v2/{tenant_id}/os-server-groups/{ServerGroup_id}			Y1	Y	
+	Delete server group	Deletes a specified server group.	DELETE	/v2/{tenant_id}/os-server-groups/{ServerGroup_id}			Y1	Y	
+Manage services (os-services)	List services	Lists running services.	GET	/v2/{tenant_id}/os-services			Y1	Y	
+	Enable scheduling for a service	Enables scheduling for a service.	PUT	/v2/{tenant_id}/os-services/enable			Y1	Y	
+	Disable scheduling for a service	Disables scheduling for a service.	PUT	/v2/{tenant_id}/os-services/disable			Y1	Y	
+	Log disabled service information	Logs information to the service table about why a service was disabled.	PUT	/v2/{tenant_id}/os-services/disable-log-reason			Y1	Y	
+	List disabled services	"Lists disabled services. If information exists, includes reasons why services were disabled."	GET	/v2/{tenant_id}/os-services/detail			Y1	Y	
+	Delete service	Deletes an existing service.	DELETE	/v2/{tenant_id}/os-services/{service_id}			Y1	Y	
+Usage reports (os-simple-tenant-usage)	List usage information for all tenants	Lists usage information for all tenants.	GET	/v2/{tenant_id}/os-simple-tenant-usage			Y1	Y	
+	Get tenant usage information	Gets usage information for a tenant.	GET	/v2/{tenant_id}/os-simple-tenant-usage/{tenant_id}			Y1	Y	
+"Servers administrative actions (servers, action)"	Pause server	Pauses a server. Changes its status to PAUSED.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Unpause server	Unpauses a PAUSED server. Changes its status to ACTIVE.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Suspend server	Suspends a server. Changes its status to SUSPENDED.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Resume server	Resumes a SUSPENDED server. Changes its status to ACTIVE.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Migrate server	Migrates a server to a host. The scheduler chooses the host.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Reset networking on server	Resets networking on a server.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Inject network information	Injects network information into a server.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Lock server	Locks a server.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Unlock server	Unlocks a server.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Create server backup	Backs up a server instance.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Live-migrate server	Live-migrates a server to a new host without rebooting.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Reset server state	Resets the state of a server to a specified state.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Evacuate server	Evacuates a server from failed host.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Add floating IP address	Adds a floating IP address to an instance.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+Bare metal nodes (os-baremetal-nodes)	Add bare metal node	Adds a bare metal node to a specified server.	POST	/v2/{tenant_id}/servers/{server_id}/os-baremetal-nodes					
+	List bare metal nodes	Lists the bare metal nodes that are associated with a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/os-baremetal-nodes					
+	Add interface to bare metal node	Adds an interface to a bare metal node that is associated with a specified server.	POST	/v2/{tenant_id}/servers/{server_id}/os-baremetal-nodes/action					
+	Delete interface from bare metal node	Deletes an interface from a bare metal node that is associated with a specified server.	DELETE	/v2/{tenant_id}/servers/{server_id}/os-baremetal-nodes/action					
+	Show bare metal node details	Shows details for a specified bare metal node.	GET	/v2/{tenant_id}/servers/{server_id}/os-baremetal-nodes/{node_id}					
+Root certificates (os-certificates)	Create root certificate	Creates a root certificate.	POST	/v2/{tenant_id}/os-certificates					
+	Show root certificate details	Shows details for a root certificate owned by a specified tenant ID.	GET	/v2/{tenant_id}/os-certificates					
+Cloudpipe (os-cloudpipe)	List cloudpipes	Lists cloudpipes.	GET	/v2/{tenant_id}/os-cloudpipe					
+	Create cloudpipe	Creates a cloudpipe.POST	POST	/v2/{tenant_id}/os-cloudpipe					
+	Update cloudpipe	Updates the virtual private network (VPN) IP address and port for a specified cloudpipe instance.	POST	/v2/{tenant_id}/os-cloudpipe/configure-project					
+Coverage reports (os-coverage)	Get coverage report	Generates a coverage report.	POST	/v2/{tenant_id}/os-coverage/action					
+	Start coverage report	Starts Nova coverage reporting.	POST	/v2/{tenant_id}/os-coverage/action					
+	Start combined coverage report	Starts coverage reporting for all services.	POST	/v2/{tenant_id}/os-coverage/action					
+	Stop coverage report	Stops coverage reporting.	POST	/v2/{tenant_id}/os-coverage/action					
+Network extended attributes (os-extended-networks)	Create network	Creates a network with extended attributes.	POST	/v2/{tenant_id}					
+	List networks	Lists networks that are available to the tenant. The information in the network list includes extended network attributes.	GET	/v2/{tenant_id}/os-extended-networks					
+	Show network information	Shows information including extended attributes for a specified network.	GET	/v2/{tenant_id}/os-extended-networks/{id}					
+Fixed IPs (os-fixed-ips)	Show fixed IP information	Shows information for a specified fixed IP address.	GET	/v2/{tenant_id}/os-fixed-ips/{fixed_ip}					
+	Reserve or release a fixed IP	Reserves or releases a fixed IP.	POST	/v2/{tenant_id}/os-fixed-ips/{fixed_ip}/action					
+Floating IP DNS records (os-floating-ip-dns)	List DNS domains	Lists registered DNS domains published by the DNS drivers.	GET	/v2/{tenant_id}/os-floating-ip-dns					
+	Create or update DNS domain	Creates or updates a DNS domain.	POST	/v2/{tenant_id}/os-floating-ip-dns/{domain}					
+	Delete DNS domain	Deletes a DNS domain and all associated host entries.	DELETE	/v2/{tenant_id}/os-floating-ip-dns/{domain}					
+	Create or update DNS entry	Creates or updates a DNS entry.	POST	/v2/{tenant_id}/os-floating-ip-dns/{domain}/entries/{name}					
+	Find unique DNS entry	Finds a unique DNS entry for a specified domain and name.	GET	/v2/{tenant_id}/os-floating-ip-dns/{domain}/entries/{name}					
+	Delete DNS entry	Deletes a specified DNS entry.	DELETE	/v2/{tenant_id}/os-floating-ip-dns/{domain}/entries/{name}					
+	List DNS entries	Lists DNS entries for a specified domain and IP.	GET	/v2/{tenant_id}/os-floating-ip-dns/{domain}/entries/{ip}					
+Floating IP pools (os-floating-ip-pools)	List floating IP pools	Lists floating IP pools.	GET	/v2/{tenant_id}/os-floating-ip-pools					
+Floating IPs (os-floating-ips)	List floating IPs	Lists floating IP addresses associated with the tenant or account.	GET	/v2/{tenant_id}/os-floating-ips					
+	Allocate floating IP	Allocates a new floating IP address to a tenant or account.	POST	/v2/{tenant_id}/os-floating-ips					
+	Show floating IP information	Shows information for a specified floating IP address.	GET	/v2/{tenant_id}/os-floating-ips/{id}					
+	Deallocate floating IP	Deallocates the floating IP address associated with floating_IP_address_ID.	DELETE	/v2/{tenant_id}/os-floating-ips/{id}					
+	Add floating IP	Adds a floating IP address to an instance.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+	Remove floating IP	Removes a floating IP from an instance.	POST	/v2/{tenant_id}/servers/{server_id}/action					
+Floating IPs bulk (os-floating-ips-bulk)	List floating IPs	Lists all floating IPs.	GET	/v2/{tenant_id}/os-floating-ips-bulk					
+	Create floating IPs	Bulk-creates floating IPs.	POST	/v2/{tenant_id}/os-floating-ips-bulk					
+	Bulk-delete floating IPs	Bulk-deletes floating IPs.	POST	/v2/{tenant_id}/os-floating-ips-bulk/delete					
+	List floating IPs by host	Lists all floating IPs for a specified host.	GET	/v2/{tenant_id}/os-floating-ips-bulk/{host_name}					
+Networks (os-networks)	Create network	Creates a network.	POST	/v2/{tenant_id}					
+	List networks	Lists networks that are available to the tenant.	GET	/v2/{tenant_id}/os-networks					
+	Add network	Adds a specified network to a project.	POST	/v2/{tenant_id}/os-networks/add					
+	Show network information	Shows information for a specified network.	GET	/v2/{tenant_id}/os-networks/{id}					
+	Delete network	Deletes a specified network.	DELETE	/v2/{tenant_id}/os-networks/{id}					
+	Associate host	Associates a specified network with a host.	POST	/v2/{tenant_id}/os-networks/{id}/action					
+	Disassociate host	Disassociates the host from a specified network.	POST	/v2/{tenant_id}/os-networks/{id}/action					
+	Disassociate network	Disassociates a specified network from a project so that the network can be reused.	POST	/v2/{tenant_id}/os-networks/{id}/action					
+	Disassociate project	Disassociates the project from a specified network.	POST	/v2/{tenant_id}/os-networks/{id}/action					
+Security groups (os-security-groups)	List security groups	Lists security groups.	GET	/v2/{tenant_id}/os-security-groups					
+	List security groups by server	Lists security groups for a specified server.	GET	/v2/{tenant_id}/servers/{server_id}/os-security-groups					
+	Create security group	Creates a security group.	POST	/v2/{tenant_id}/os-security-groups					
+	Show security group information	Shows information for a specified security group.	GET	/v2/{tenant_id}/os-security-groups/{security_group_id}					
+	Update security group	Updates a specified security group.	PUT	/v2/{tenant_id}/os-security-groups/{security_group_id}					
+	Delete security group	Deletes a specified security group.	DELETE	/v2/{tenant_id}/os-security-groups/{security_group_id}					
+Rules for security group (os-security-group-rules)	Create security group rule	Creates a rule for a specified security group.	POST	/v2/{tenant_id}/os-security-group-rules					
+	Delete security group rule	Deletes a specified security group rule.	DELETE	/v2/{tenant_id}/os-security-group-rules/{security_group_rule_id}					
+Rules for default security group (os-security-group-default-rules)	List default security group rules	Lists default security group rules.	GET	/v2/{tenant_id}/os-security-group-default-rules					
+	Create default security group rule	Creates a default security group rule.	POST	/v2/{tenant_id}/os-security-group-default-rules					
+	Show default security group rule information	Shows information for a specified security group rule.	GET	/v2/{tenant_id}/os-security-group-default-rules/{security_group_default_rule_id}					
+	Delete default security group rule	Deletes a specified security group rule.	DELETE	/v2/{tenant_id}/os-security-group-default-rules/{security_group_default_rule_id}					
+Images with size attribute (images)	List details for images	Lists details for available images. Includes the image size.	GET	/v2/{tenant_id}/images/detail					
+	Get image details	Gets details for a specified image. Includes the image size.	GET	/v2/{tenant_id}/images/{image_id}					
+"Volume extension (os-volumes, os-snapshots)"	List volumes	Lists the volumes associated with the account.	GET	/v2/{tenant_id}/os-volumes					
+	Create volume	Creates a volume.	POST	/v2/{tenant_id}/os-volumes					
+	List details for volumes	Lists details for all volumes.	GET	/v2/{tenant_id}/os-volumes/detail					
+	Show volume information	Shows information for a specified volume.	GET	/v2/{tenant_id}/os-volumes/{volume_id}					
+	Delete volume	Deletes a specified volume.	DELETE	/v2/{tenant_id}/os-volumes/{volume_id}					
+	List volume types	Lists volume types.	GET	/v2/{tenant_id}/os-volume-types					
+	Show volume type	Shows information for a specified volume type.	GET	/v2/{tenant_id}/os-volume-types/{volume_type_id}					
+	Create snapshot	Creates a snapshot.	POST	/v2/{tenant_id}/os-snapshots					
+	List snapshots	Lists snapshots.	GET	/v2/{tenant_id}/os-snapshots					
+	List details for snapshots	Lists details for all snapshots.	GET	/v2/{tenant_id}/os-snapshots/detail					
+	Show snapshot	Shows information for a specified snapshot.	GET	/v2/{tenant_id}/os-snapshots/{snapshot_id}					
+	Delete snapshot	Deletes a specified snapshot from the account.	DELETE	/v2/{tenant_id}/os-snapshots/{snapshot_id}					
