@@ -1,0 +1,282 @@
+Category	API	Parameters	Optional	"FusionSphere Support
+（Y1:支持未验证
+Y:官方宣称支持）"	Hybrid Cloud Support	Solution
+Compute API v2 (SUPPORTED)						
+API versions	List API versions			Y1	Y	
+Limits	List limits			Y1	Y	
+Extensions	List extensions			Y1	Y	
+	Get extension			Y1	Y	
+Servers	List servers			Y	Y	
+	Create server	security_groups	Y	Y	Y	Create VM + Run Container
+		user_data	Y	Y	Y	
+		availability_zone	Y	Y	Y	
+		imageRef	N	Y	Y	
+		flavorRef	N	Y	Y	
+		networks:uuid	Y	Y	Y	
+		networks:port	Y	Y	Y	
+		networks:fixed_ip	Y	Y	Y	
+		metadata	Y	Y	Y	
+		personality	Y	Y	Y	容器支持直接修改文件
+		block_device_mapping_v2	Y	Y	Y(有差异)	
+		device_name	Y	Y	Y	
+		source_type	Y	Y	Y	
+		destination_type	Y	Y	Y	
+		delete_on_termination	Y	Y	Y	
+		guest_format	Y	Y	N	指定磁盘文件类型（ephemeral or swap）
+		boot_index	Y	Y	Y	
+		config_drive	Y	Y	N	
+		key_name	Y	Y	Y	
+		os:scheduler_hints	Y	Y	N	只有一个host，不存在host调度选择
+		OS-DCF:diskConfig	Y	Y	Y	镜像需要记录实际占用大小
+	List details for servers			Y	Y	
+	Get server details			Y	Y	
+	Update server			Y	Y	刷新数据库记录
+	Delete server			Y	Y	删除容器+虚拟机
+Server metadata	Show server metadata			Y1	Y1	
+	Create or replace server metadata items			Y1	Y1	
+	Update server metadata items			Y1	Y1	
+	Show server metadata item details			Y1	Y1	
+	Create or update server metadata item			Y1	Y1	
+	Delete server metadata item			Y1	Y1	
+Server addresses	List addresses			Y1	Y1	
+	List addresses by network			Y1	Y1	
+Server actions	Change password			Y1	Y1	
+	Reboot server			Y	Y	
+	Rebuild server			Y1	Y	替换镜像重新创建虚拟机（如果使用volume启动虚拟机，则没有任何变化）http://blog.csdn.net/lynn_kong/article/details/9102253
+	Resize server			Y1	N	指定flavor迁移虚拟机（当前级联方案，被级联层只有一个host，此处会直接报错，需要修改nova-api代码才能支持）http://docs.openstack.org/user-guide/cli_change_the_size_of_your_server.html
+	Confirm resized server			Y1	N	如果resize成功，虚拟机状态变为VERIFY_RESIZE，Confirm resize后，虚拟机状态变为ACTIVE
+	Revert resized server			Y1	N	如果resize失败，可以revert resize，重新回滚
+	Create image			Y	Y?	使用docker的导出镜像功能
+Flavors	List flavors			Y	Y	
+	List details for flavors			Y	Y	
+	Get flavor details			Y	Y	
+Images	List images			Y1	Y1	
+	List images details			Y1	Y1	
+	Get image details			Y1	Y1	
+	Delete image			Y1	Y1	
+Image metadata	Show image metadata			Y1	Y1	
+	Create or replace image metadata			Y1	Y1	
+	Update image metadata items			Y1	Y1	
+	Show image metadata item details			Y1	Y1	
+	Create or update image metadata item			Y1	Y1	
+	Delete image metadata item			Y1	Y1	
+Compute API v2 extensions (SUPPORTED)						
+Servers with block device mapping format (servers)	List servers			Y	Y	
+	Create server			Y	Y	
+Servers with configuration drive (servers)	Create server with configuration drive			Y	N	
+	Get server information with configuration drive			Y	N	
+	Get server details with configuration drive			Y	N	
+Servers console (servers)	Get console			Y	Y	
+Servers console output (servers)	Get console output for an instance			Y1	Y	
+Servers extended attributes (servers)	List servers with extended server attributes			Y1	Y1	
+	Show extended server attributes			Y1	Y1	
+Servers with extended availability zones (servers)	Show server			Y	Y1	
+	List details for servers			Y	Y1	
+Servers extended status (servers)	Show server extended status			Y	Y1	
+	List extended status for servers			Y	Y1	
+Servers with IP type (servers)	Show IP type			Y	Y1	
+	List servers with IP type			Y	Y1	
+Servers multiple create (servers)	Create multiple servers			Y1	Y1	
+Servers with mac_addr extended attribute (servers)	Create server with OS-EXT-IPS-MAC:mac_addr extended attribute					
+	Show server information			Y1	Y1	
+	Get server details			Y	Y1	
+Servers with scheduler hints (servers)	Create server with scheduler hints			Y	N	
+"Servers deferred delete (servers, action)"	Force delete server			Y1	Y	默认只有管理员才能执行该操作，直接将虚拟机从磁盘上删除。
+	Restore server			Y1	Y	默认只有管理员才能执行该操作，如果nova配置了reclaim_instance_interval，则虚拟机是被假删除，在周期内还可以通过restore恢复
+"Servers rescue and unrescue (servers, action)"	Rescue server			N	N	proxy没有该接口(营救一个故障虚拟机的数据。指定密码以及营救镜像创建一个虚拟机，用这个虚拟机再去恢复数据。)
+	Unrescue server			N	N	proxy没有该接口（回滚）
+"Servers shelve (servers, action)"	Shelve server			N	N	proxy没有该接口（搁置一个虚拟机。停止虚拟机，并做快照）
+	Remove a shelved instance			N	N	proxy没有该接口（删除虚拟机）
+	Restore shelved server			N	N	proxy没有该接口（恢复搁置的虚拟机）
+"Servers start and stop (servers, action)"	Start server			Y	Y	
+	Stop server			Y	Y	
+"Servers diagnostics (servers, diagnostics)"	Get server diagnostics			N	N	proxy不支持
+"Servers and images with disk config (servers, images)"	Create server			Y	Y	
+	Show server information			Y	Y1	
+	Update server			Y	Y1	
+	Resize server			Y1	N	
+	Rebuild server			Y1	Y	
+	List servers			Y	Y	
+	Get image information			Y1	Y	
+	List images			Y1	Y	
+"Servers availability zones (servers, os-availability-zone)"	Create server with availability zone			Y	Y	
+	List availability zones			Y1	Y	
+	List availability zones with details			Y1	Y	
+	Show availability zone information			Y1	Y	
+"Servers instance actions (servers, os-instance-actions)"	List server actions			Y1	Y	查询虚拟机操作历史记录
+	Get action details			Y1	Y	查询虚拟机操作详情
+"Servers password (servers, os-server-password)"	Get server password			Y1	Y	
+	Clear server password			Y1	Y	清除metadata server中的administartor password
+"Servers virtual interfaces (servers, os-virtual-interfaces)"	List virtual interfaces			Y1	Y	
+	Show virtual interface and attached network			Y1	Y	
+"Servers with volume attachments (servers, os-volume_attachments)"	Attach volume			Y	Y	
+	List volume attachments			Y1	Y	
+	Show volume attachment details			Y1	Y	
+	Detach volume			Y	Y	
+Server boot from volume (os-volumes_boot)	Create server			Y	Y	
+Flavors create and delete (flavors)	Create flavor			Y1	Y	
+	Delete flavor			Y1	Y	
+Flavors with disabled attribute (flavors)	Get flavor disabled status details			Y1	Y	
+	List flavors with flavor disabled status			Y1	Y	
+Flavors with extended attributes (flavors)	Create flavor with extra data			Y1	Y	
+	Get flavor extra data details			Y1	Y	
+	List flavors with extra data			Y1	Y	
+Flavors with rxtx_factor extended attribute (flavors)	Create flavor with rxtx_factor			Y1	Y	
+	Get flavor with rxtx_factor			Y1	Y	
+	Get flavor Details with rxtx_factor			Y1	Y	
+"Flavors with extra-specs (flavors, os-extra-specs)"	List flavor extra specs			Y1	Y	
+	Create flavor extra specs			Y	Y	
+	Get flavor extra spec details			Y1	Y	
+	Update flavor extra specs			Y1	Y	
+	Delete flavor extra specs			Y1	Y	
+"Flavors access (flavors, os-flavor-access)"	List flavors with access type			Y1	Y	
+	Create private flavor			Y1	Y	
+	Show flavor access type			Y1	Y	
+	List tenants with access to private flavor			Y1	Y	
+	Add access to private flavor			Y1	Y	
+	Delete access from private flavor			Y1	Y	
+"Flavors swap (flavors, os-flavor-swap)"	List flavor extra specs			Y1	Y	
+	Create flavor extra specs			Y1	Y	
+Limits with project usage (limits)	Get limits			Y1	Y	
+Limits with project usage for administrators (limits)	Get customer limits			Y1	Y	
+Guest agents (os-agents)	List agents			Y1	N	
+	Create agent			Y1	N	
+	Delete agent			Y1	N	
+	Update agent			Y1	N	
+Host aggregates (os-aggregates)	List aggregates			Y1	Y	
+	Create aggregate			Y1	Y	
+	Delete aggregate			Y1	Y	
+	Get aggregate details			Y1	Y	
+	Update aggregate			Y1	Y	
+	Set aggregate metadata			Y1	Y	
+	Add host to aggregate			Y1	Y	
+	Remove host from aggregate			Y1	Y	
+Hosts (os-hosts)	List hosts			Y1	Y	
+	Show host information			Y1	Y	
+	Update host			N	N	
+	Start host			N	N	
+	Shut down host			N	N	
+	Reboot host			N	N	
+Hypervisors (os-hypervisors)	List hypervisors			N	N	一个被级联层对应一个proxy也就是一个hypervisor host，该接口与预想结果不一致
+	Show hypervisor information			N	N	
+	Show statistics for hypervisors			N	N	
+	Show hypervisor up time			N	N	
+	List instances for hypervisors			N	N	
+Hypervisor with status (os-hypervisor-status)	Show hypervisor information			N	N	
+Attach interfaces (os-interface)	Create interface			Y1	Y	
+	List interfaces			Y1	Y	
+	Show attached interface information			Y1	Y	
+	Detach interface			Y1	Y	
+Keypairs (os-keypairs)	List keypairs			Y	Y	
+	Create or import keypair			Y	Y	
+	Delete keypair			Y	Y	
+	Show keypair information			Y	Y	
+Migrations (os-migrations)	Get migrations			Y1	Y	
+Quota class (os-quota-class-sets)	Show quota			Y1	Y	
+	Update quota			Y1	Y	
+Quota sets (os-quota-sets)	Show quotas			Y	Y	
+	Update quotas			Y	Y	
+	Delete quotas			Y1	Y	
+	Get default quotas			Y	Y	
+	Show quotas for user			Y1	Y	
+	Update quotas for user			Y1	Y	
+	Delete quotas for user			Y1	Y	
+	Show quota details for user			Y1	Y	
+Server groups (os-server-groups)	List server groups			Y1	Y	
+	Create server group			Y1	Y	服务器组，策略用于指定发放虚拟机是否在同一个hypervisor内（通过hint指定），hypervisor信息通过nova show serverid 查询hostId字段
+	Show server group details			Y1	Y	
+	Delete server group			Y1	Y	
+Manage services (os-services)	List services			Y1	Y	
+	Enable scheduling for a service			Y1	Y	
+	Disable scheduling for a service			Y1	Y	
+	Log disabled service information			Y1	Y	
+	List disabled services			Y1	Y	
+	Delete service			Y1	Y	
+Usage reports (os-simple-tenant-usage)	List usage information for all tenants			Y1	Y	
+	Get tenant usage information			Y1	Y	
+"Servers administrative actions (servers, action)"	Pause server					
+	Unpause server					
+	Suspend server					
+	Resume server					
+	Migrate server					
+	Reset networking on server					
+	Inject network information					
+	Lock server					
+	Unlock server					
+	Create server backup					
+	Live-migrate server					
+	Reset server state					
+	Evacuate server					
+	Add floating IP address					
+Bare metal nodes (os-baremetal-nodes)	Add bare metal node					
+	List bare metal nodes					
+	Add interface to bare metal node					
+	Delete interface from bare metal node					
+	Show bare metal node details					
+Root certificates (os-certificates)	Create root certificate					
+	Show root certificate details					
+Cloudpipe (os-cloudpipe)	List cloudpipes					
+	Create cloudpipe					
+	Update cloudpipe					
+Coverage reports (os-coverage)	Get coverage report					
+	Start coverage report					
+	Start combined coverage report					
+	Stop coverage report					
+Network extended attributes (os-extended-networks)	Create network					
+	List networks					
+	Show network information					
+Fixed IPs (os-fixed-ips)	Show fixed IP information					
+	Reserve or release a fixed IP					
+Floating IP DNS records (os-floating-ip-dns)	List DNS domains					
+	Create or update DNS domain					
+	Delete DNS domain					
+	Create or update DNS entry					
+	Find unique DNS entry					
+	Delete DNS entry					
+	List DNS entries					
+Floating IP pools (os-floating-ip-pools)	List floating IP pools					
+Floating IPs (os-floating-ips)	List floating IPs					
+	Allocate floating IP					
+	Show floating IP information					
+	Deallocate floating IP					
+	Add floating IP					
+	Remove floating IP					
+Floating IPs bulk (os-floating-ips-bulk)	List floating IPs					
+	Create floating IPs					
+	Bulk-delete floating IPs					
+	List floating IPs by host					
+Networks (os-networks)	Create network					
+	List networks					
+	Add network					
+	Show network information					
+	Delete network					
+	Associate host					
+	Disassociate host					
+	Disassociate network					
+	Disassociate project					
+Security groups (os-security-groups)	List security groups					
+	List security groups by server					
+	Create security group					
+	Show security group information					
+	Update security group					
+	Delete security group					
+Rules for security group (os-security-group-rules)	Create security group rule					
+	Delete security group rule					
+Rules for default security group (os-security-group-default-rules)	List default security group rules					
+	Create default security group rule					
+	Show default security group rule information					
+	Delete default security group rule					
+Images with size attribute (images)	List details for images					
+	Get image details					
+"Volume extension (os-volumes, os-snapshots)"	List volumes					
+	Create volume					
+	List details for volumes					
+	Show volume information					
+	Delete volume					
+	List volume types					
+	Show volume type					
+	Create snapshot					
+	List snapshots					
+	List details for snapshots					
+	Show snapshot					
+	Delete snapshot					
